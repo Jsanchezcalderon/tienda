@@ -1,7 +1,10 @@
 <h1>Ingrese sus datos</h1>
 
 <div class="form">
-<?php $form = $this->beginWidget('CActiveForm'); ?>
+<?php $form = $this->beginWidget('CActiveForm', array(
+    'id'=>'compra-form',
+	'enableAjaxValidation'=>true,
+)); ?>
 
 <?php echo $form->errorSummary($model); ?>
 
@@ -20,13 +23,14 @@
 </div>
 <div class="row">
     <?php echo $form->labelEx($model, 'telefono'); ?>
-    <?php echo $form->numberField($model,'telefono');?>
+    <?php echo $form->numberField($model,'telefono',array('maxlength'=>10,
+    /* 'oninput'=>'if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);' */));?>
     <?php echo $form->error($model, 'telefono');?>
 
 </div>
 <div class="row">
     <?php echo $form->labelEx($model, 'email'); ?>
-    <?php echo $form->emailField($model,'email');?>
+    <?php echo $form->textField($model,'email');?>
     <?php echo $form->error($model, 'email');?>
 
 </div>
@@ -44,9 +48,3 @@
 <?php $this->endWidget();?>
 
 </div>
-
-<script>
-
-    alert('mensaje de alerta')
-
-</script>

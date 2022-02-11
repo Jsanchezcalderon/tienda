@@ -25,8 +25,9 @@ class Clientes extends CActiveRecord{
             array('cedula, 	nombre_cliente, telefono, email, genero', 'required'),
             array('cedula, telefono', 'numerical', 'integerOnly'=>true),
             array('cedula','unique'),
-            array('email','email'),
+			array('email','email'),
             array('genero','length', 'max'=>1),
+            array('cedula, telefono','length','min'=>7,'max'=>10),
             
 
         );
