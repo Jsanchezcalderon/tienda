@@ -23,7 +23,7 @@
 <div class="container" id="page">
 
 	<div id="header">
-		<div id="logo"><?php echo CHtml::encode('Bienvenido a la app de compra '); ?></div>
+		<div id="logo"><?php echo CHtml::encode($this->pageTitle); ?></div>
 	</div><!-- header -->
 
 	<div id="mainmenu">

@@ -51,6 +51,14 @@
 
             <?php echo Chtml::submitButton('guardar', array('id' => 'guardar')) ?>
 
+            <script>
+
+                $('#guardar').click(function(){
+                    alert('guardado');
+                })
+
+            </script>
+
         </div>
 
         <div id="nocompra" hidden>

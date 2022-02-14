@@ -17,6 +17,8 @@ class ClientesController extends Controller
         $this->render('index', array('model' => $model));
     }
 
+    
+
 
 
     public function actionComprar($id)
@@ -36,6 +38,7 @@ class ClientesController extends Controller
                     $this->redirect(array('index'));
                 }else{
                     $this->render('comprar', array('model' => $model,  'modeloCliente' => $modeloCliente));
+                    
                 }                
             }else if($select == 's'){
                 $model = new Camposextras('comprar');
