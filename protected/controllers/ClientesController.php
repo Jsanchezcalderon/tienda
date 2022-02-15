@@ -4,7 +4,14 @@ class ClientesController extends Controller
 
     public $layout = '//layouts/column2';
 
-    public function actionIndex()
+    public function actionIndex(){
+        $model= Clientes::model()->findAll();
+		$this->render('index',array(
+			'model'=>$model,
+		));
+    }
+
+    public function actionCreate()
     {
         $model =  new Clientes;
 
@@ -14,19 +21,16 @@ class ClientesController extends Controller
                 $this->redirect(array('comprar', 'id' => $model->id));
             }
         }
-        $this->render('index', array('model' => $model));
+        $this->render('create', array('model' => $model));
     }
-
-    
-
 
 
     public function actionComprar($id)
-    {     
-        
+    {            
         
         $modeloCliente = Clientes::model()->findByPk($id);
         $model = new Camposextras;
+        
         if (isset($_POST['Camposextras']['realiza_compra'])){            
             $select = $_POST['Camposextras']['realiza_compra'];
             if($select == 'n'){
@@ -48,7 +52,7 @@ class ClientesController extends Controller
                 $model->metodo_pago =$_POST['Camposextras']['metodo_pago'];
                 $model->id_externo =$_POST['Camposextras']['id_externo'];
                 if ($model->save()) {
-                    $this->redirect(array('index'));
+                    $this->redirect(array('view', 'id'=>$model->id_externo));
                 }else{
                     $this->render('comprar', array('model' => $model,  'modeloCliente' => $modeloCliente));
                 }
@@ -57,6 +61,18 @@ class ClientesController extends Controller
             $this->render('comprar', array('model' => $model, 'modeloCliente' => $modeloCliente));
           
         }
+    }
+
+    public  function actionView($id)
+    {
+        $modeloCliente = Clientes::model()->findByPk($id);
+        $modelCompra = Camposextras::model()->findAll('id_externo =? AND realiza_compra =?',array($modeloCliente->id, 's'));
+        $total = count($modelCompra);
+
+        $this->render('view',array('modeloCliente'=>$modeloCliente, 'modelCompra'=>$modelCompra, 'total'=>$total));
+
+
+
     }
 
     protected function performAjaxValidation($model)

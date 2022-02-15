@@ -1,7 +1,10 @@
 <h1></h1>
 
 <div class="form">
-    <?php $form = $this->beginWidget('CActiveForm'); ?>
+    <?php $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'compra-form',
+        'enableAjaxValidation' => true,
+    )); ?>
 
     <h1> Cliente #<?php echo $modeloCliente->id ?> </h1>
 
@@ -10,75 +13,23 @@
 
     <div class="row">
 
-        <?php
-        $htmlOptions = array(
-            'ajax' => array(),
-            'empty' => 'Seleccione---'
-        )
-        ?>
-
+    
         <?php echo $form->labelEx($model, 'realiza_compra'); ?>
-        <?php echo $form->dropDownList($model, 'realiza_compra', array('s' => 'Si', 'n' => 'No'), $htmlOptions);
+        <?php echo $form->dropDownList($model, 'realiza_compra', array('s' => 'Si', 'n' => 'No'),array('empty' => 'Seleccione---','class'=>'btn btn-default dropdown-toggle'));
         ?>
 
-        <div id="sicompra" hidden>
+        <div id="sicompra" hidden class="form-group">
             <?php
-            /* $this->renderPartial('_sicompra', array('model' => $model, 'modeloCliente' => $modeloCliente, 'form' => $form)); */
+            $this->renderPartial('_sicompra', array('model' => $model, 'modeloCliente' => $modeloCliente, 'form' => $form));
             ?>
-            <h1>Decidio comprar</h1>
-            <div class="row">
-                <?php echo $form->labelEx($model, 'articulo'); ?>
-                <?php echo $form->dropDownList($model, 'articulo', array('computador' => 'Computador', 'portatil' => 'Portatil', 'diademas' => 'Diademas'), array('empty' => 'Selecciona....')); ?>
-                <?php echo $form->error($model, 'articulo'); ?>
 
-            </div>
-            <div class="row">
-                <?php echo $form->labelEx($model, 'precio'); ?>
-                <?php echo $form->numberField($model, 'precio'); ?>
-                <?php echo $form->error($model, 'precio'); ?>
-
-            </div>
-            <div class="row">
-                <?php echo $form->labelEx($model, 'metodo_pago'); ?>
-                <?php echo $form->dropDownList($model, 'metodo_pago', array('tarjeta' => 'Tarjeta de credito', 'efectivo' => 'Efectivo'), array('empty' => 'Seleccione-------')); ?>
-                <?php echo $form->error($model, 'metodo_pago'); ?>
-
-            </div>
-
-
-            <?php echo $form->hiddenField($model, 'id_externo', array('value' => $modeloCliente->id)); ?>
-
-
-            <?php echo Chtml::submitButton('guardar', array('id' => 'guardar')) ?>
-
-            <script>
-
-                $('#guardar').click(function(){
-                    alert('guardado');
-                })
-
-            </script>
 
         </div>
 
-        <div id="nocompra" hidden>
+        <div id="nocompra" hidden class="form-group">
             <?php
-            /* $this->renderPartial('_nocompra', array('model' => $model, 'modeloCliente' => $modeloCliente, 'form' => $form)); */
+            $this->renderPartial('_nocompra', array('model' => $model, 'modeloCliente' => $modeloCliente, 'form' => $form));
             ?>
-            <h1>Decide no comprar</h1>
-
-            <div class="row">
-                <?php echo $form->labelEx($model, 'no_compra'); ?>
-                <?php echo $form->dropDownList($model, 'no_compra', array('muy caro' => 'Muy Caro', 'se lo piensa mejor' => 'Se lo piensa mejor', 'no le interesa' => 'No le interesa'), array('empty' => 'Selecciona....')); ?>
-                <?php echo $form->error($model, 'no_compra'); ?>
-
-            </div>
-
-            <?php echo $form->hiddenField($model, 'id_externo', array('value' => $modeloCliente->id)); ?>
-
-
-            <?php echo CHtml::submitButton('guardar', array('id' => 'guardarno')) ?>
-
 
         </div>
 
@@ -91,24 +42,60 @@
 
 
     <script>
-        $('#Camposextras_realiza_compra').change(function() {
-            if ($('#Camposextras_realiza_compra').val() == 's') {
-                $('#sicompra').attr('hidden', false);
-                $('#nocompra').attr('hidden', true);
-                $('#Camposextras_no_compra').val('');
+        $(document).ready(function() {
+            if ($('#compra-form_es_').is(':visible')) {
+                if ($('#Camposextras_realiza_compra').val() == 's') {
+                    $('#sicompra').attr('hidden', false);
+                    $('#nocompra').attr('hidden', true);            
 
-            } else if ($('#Camposextras_realiza_compra').val() == 'n') {
-                $('#sicompra').attr('hidden', true);
-                $('#nocompra').attr('hidden', false);
-                $('#Camposextras_articulo').val('');
-                $('#Camposextras_precio').val('');
-                $('#Camposextras_metodo_pago').val('');
+                } else if ($('#Camposextras_realiza_compra').val() == 'n') {
+                    $('#sicompra').attr('hidden', true);
+                    $('#nocompra').attr('hidden', false);
 
-            } else {
-                $('#sicompra').attr('hidden', true);
-                $('#nocompra').attr('hidden', true);
-            }
+                } else {
+                    $('#sicompra').attr('hidden', true);
+                    $('#nocompra').attr('hidden', true);
+                }
 
+                    }
+            $('#Camposextras_realiza_compra').change(function() {
+                if ($('#Camposextras_realiza_compra').val() == 's') {
+                    $('#sicompra').attr('hidden', false);
+                    $('#nocompra').attr('hidden', true);
+                    $('#Camposextras_no_compra').val('');
+                    if($('#Camposextras_articulo').hasClass('error') || $('#iCamposextras_precio').hasClass('error') || $('#Camposextras_metodo_pago').hasClass('error') ){
+                        $('#compra-form_es_').css({'display':'block'});
+                    }else{
+                        $('#compra-form_es_').css({'display':'none'});
+
+                    }
+
+
+                } else if ($('#Camposextras_realiza_compra').val() == 'n') {
+                    $('#sicompra').attr('hidden', true);
+                    $('#nocompra').attr('hidden', false);
+                    $('#Camposextras_articulo').val('');
+                    $('#Camposextras_precio').val('');
+                    $('#Camposextras_metodo_pago').val('');
+                    if($('#Camposextras_no_compra').hasClass('error')){
+                        $('#compra-form_es_').css({'display':'block'});
+                    }else{
+                        $('#compra-form_es_').css({'display':'none'});
+                    }
+
+                } else {
+                    $('#sicompra').attr('hidden', true);
+                    $('#nocompra').attr('hidden', true);
+                    if ($('#compra-form_es_').is(':visible')) {
+                        $('#compra-form_es_').css({'display':'none'});
+                    }
+                }
+
+
+            });
 
         });
+
+
+      
     </script>

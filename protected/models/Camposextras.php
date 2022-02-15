@@ -18,9 +18,8 @@ class Camposextras extends CActiveRecord
 			array('articulo', 'length', 'max' => 50),
 			array('precio', 'length', 'max' => 19, 'min'=>1),
 			array('metodo_pago, no_compra', 'length', 'max' => 30),
-			//array('no_compra', 'validateRequired', 'on'=>'no_compra'),
 			array('articulo, precio, metodo_pago, realiza_compra', 'required', 'on'=>'comprar'),
-			array('no_compra', 'required', 'on'=>'no_compra'),
+			array('no_compra, realiza_compra', 'required', 'on'=>'no_compra'),
 		);
 	}
 

@@ -1,50 +1,38 @@
-<h1>Ingrese sus datos</h1>
-
-<div class="form">
-<?php $form = $this->beginWidget('CActiveForm', array(
-    'id'=>'compra-form',
-	'enableAjaxValidation'=>true,
-)); ?>
-
-<?php echo $form->errorSummary($model); ?>
+<div class="container">
+    <div class="container-fluid">
 
 
-<div class="row">
-    <?php echo $form->labelEx($model, 'cedula'); ?>
-    <?php echo $form->numberField($model,'cedula');?>
-    <?php echo $form->error($model, 'cedula');?>
+        <h1>Clientes</h1>
+        <table class="table table-hover ">
+            <tr>
+                <th>Cedula</th>
+                <th>Nombre cliente</th>
+                <th>Telefono</th>
+                <th>Correo</th>
+                <th>Genero</th>
+                <th></th>
 
-</div>
-<div class="row">
-    <?php echo $form->labelEx($model, 'nombre_cliente'); ?>
-    <?php echo $form->textField($model,'nombre_cliente');?>
-    <?php echo $form->error($model, 'nombre_cliente');?>
-
-</div>
-<div class="row">
-    <?php echo $form->labelEx($model, 'telefono'); ?>
-    <?php echo $form->numberField($model,'telefono',array('maxlength'=>10,
-    /* 'oninput'=>'if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);' */));?>
-    <?php echo $form->error($model, 'telefono');?>
-
-</div>
-<div class="row">
-    <?php echo $form->labelEx($model, 'email'); ?>
-    <?php echo $form->textField($model,'email');?>
-    <?php echo $form->error($model, 'email');?>
-
-</div>
-<div class="row">
-    <?php echo $form->labelEx($model, 'genero'); ?>
-    <?php echo $form->dropDownList($model,'genero',array('m'=>'Mujer', 'h'=>'Hombre'), array('empty'=>'Selecciona....'));?>
-    <?php echo $form->error($model, 'genero');?>
-
-</div>
-
-<?php echo Chtml::submitButton('Continuar') ?>
+            </tr>
 
 
+            <?php foreach ($model as $data) : ?>
 
-<?php $this->endWidget();?>
+                <tr>
+                    <td><?php echo CHtml::encode($data->cedula) ?></td>
+                    <td><?php echo Chtml::encode($data->nombre_cliente); ?></td>
+                    <td><?php echo Chtml::encode($data->telefono); ?></td>
+                    <td><?php echo CHtml::encode($data->email) ?></td>
+                    <td><?php echo CHtml::encode($data->genero) ?></td>
+                    <td><?php echo CHtml::link(
+                            'Ver Compras',
+                            yii::app()->createUrl('clientes/view', array('id' => $data->id)),
+                            array('class' => 'btn btn-large btn-primary')
 
+                        ); ?></td>
+                </tr>
+
+            <?php endforeach; ?>
+
+        </table>
+    </div>
 </div>
